@@ -10,13 +10,15 @@ import { ProfileComponent } from './core/profile/profile.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { BreedDetailsComponent } from './pages/breed-details/breed-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     BreedListComponent,
-    ProfileComponent
+    ProfileComponent,
+    BreedDetailsComponent
   ],
   imports: [
     BrowserModule,

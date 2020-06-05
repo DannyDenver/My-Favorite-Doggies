@@ -1,0 +1,9 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-11 col-md-10 col-lg-8">
+            <doggies-profile *ngIf="breed && favoriteIds" [breed]="breed"
+                [favorite]="favoriteIds.indexOf(breed.id) > -1" [isDetailedProfile]="'true'">
+            </doggies-profile>
+        </div>
+    </div>
+</div>

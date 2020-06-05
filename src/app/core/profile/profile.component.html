@@ -1,11 +1,15 @@
 <mat-card *ngIf="imageUrl">
     <div class="d-flex flex-wrap flex-sm-nowrap justify-content-center justify-content-sm-start">
-        <img data-src="{{imageUrl}}" alt="{{breed.name}}" class="img-fluid avatar mr-3" />
+        <a [routerLink]="'/breed/' + breed.id"><img data-src="{{imageUrl}}" alt="{{breed.name}}" class="avatar mr-3" />
+        </a>
         <div class="text-center text-sm-left">
-            <h2 class="font-weight-bold">{{breed.name}}</h2>
+            <a [routerLink]="'/breed/' + breed.id">
+                <h2 class="font-weight-bold">{{breed.name}}</h2>
+            </a>
             <h6><i>{{breed.country}}</i></h6>
-            <p>{{breed.description}}</p>
-            <button mat-raised-button class="mt-2">Add to Favorites</button>
+            <p *ngIf="isDetailedProfile">{{breed.description}}</p>
+            <button mat-raised-button *ngIf="!favorite" class="mt-2">Add to Favorites</button>
+            <button mat-raised-button *ngIf="favorite" class="mt-2 remove">Remove from Favorites</button>
         </div>
     </div>
 </mat-card>

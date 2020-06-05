@@ -20,6 +20,11 @@ $primary:#14a96d;
 }
 
 button.mat-raised-button {
-    background: $primary !important; 
+    background: $primary; 
     color: white;
+
+    &.remove {
+        background: #c8232c
+    }
 }
+
