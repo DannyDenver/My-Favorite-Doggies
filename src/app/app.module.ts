@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { BreedDetailsComponent } from './pages/breed-details/breed-details.component';
+import { FavoritesListComponent } from './pages/favorites-list/favorites-list.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { BreedDetailsComponent } from './pages/breed-details/breed-details.compo
     HeaderComponent,
     BreedListComponent,
     ProfileComponent,
-    BreedDetailsComponent
+    BreedDetailsComponent,
+    FavoritesListComponent
   ],
   imports: [
     BrowserModule,

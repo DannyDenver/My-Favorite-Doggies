@@ -4,13 +4,14 @@ import { environment } from '../../environments/environment';
 import { Breed } from '../models/breed.model';
 import { Observable } from 'rxjs';
 import { publishReplay, refCount, map } from 'rxjs/operators';
+import { Favorite } from '../models/favorite.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DoggiesService {
   private doggies$: Observable<Breed[]>;
-  private favorites$: Observable<Breed[]>;
+  private favorites$: Observable<Favorite[]>;
 
   url = environment.apiServiceUrl;
 
@@ -32,11 +33,10 @@ export class DoggiesService {
     return this.breeds.pipe(map((data: Breed[]) => data.filter((breed: Breed) => breed.id === id)[0] || null));
   }
 
-  get favorites(): Observable<Breed[]> {
+  get favorites(): Observable<Favorite[]> {
     if (!this.favorites$) {
-      this.favorites$ = this.http.get<any>(this.url + '/favorites')
+      this.favorites$ = this.http.get<Favorite[]>(`${this.url}/favorites`)
         .pipe(
-          map(result => result.map(dog => dog.breed)),
           publishReplay(1),
           refCount()
         );
@@ -45,7 +45,19 @@ export class DoggiesService {
     return this.favorites$;
   }
 
-  get favoriteIds(): Observable<number[]> {
-    return this.favorites.pipe(map((fav: Breed[]) => fav.map(x => x.id)));
+  get favoriteIds(): Observable<{}> {
+    return this.favorites.pipe(
+      map((fav: Favorite[]) => fav.reduce((map, x) => {map[x.breed.id] = x.id; return map}, {})));
+  }
+
+  addToFavorites(id: number) {
+    this.favorites$ = null;
+    const body = { breed_id: id };
+    return this.http.post(`${this.url}/favorites/add`, body);
+  }
+
+  removeFromFavorites(id: number) {
+    this.favorites$ = null;
+    return this.http.delete(`${this.url}/favorites/${id}`);
   }
 }

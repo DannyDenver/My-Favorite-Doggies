@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Breed } from 'src/app/models/breed.model';
 
 @Component({
@@ -12,6 +12,9 @@ export class ProfileComponent implements OnInit {
   @Input() randomDecimal: number = null;
   @Input() favorite = false;
 
+  @Output() addToFavorites: EventEmitter<number> = new EventEmitter();
+  @Output() removeFromFavorites: EventEmitter<number> = new EventEmitter();
+  
   imageUrl: string;
 
   constructor() { }
@@ -19,5 +22,14 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     const randomIndex = Math.floor((this.randomDecimal || Math.random()) * Math.floor(this.breed.images.length));
     this.imageUrl = this.breed.images[randomIndex];
+  }
+
+  toggleIsFavorite() {
+    this.favorite = !this.favorite;
+    if(this.favorite) {
+      this.addToFavorites.emit(this.breed.id);
+    }else {
+      this.removeFromFavorites.emit(this.breed.id)
+    }
   }
 }

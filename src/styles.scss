@@ -1,7 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Averta-Regular, Avenir !important }
+body { margin: 0;
+    h1 {
+        color: #1b1f23 !important;
+    }
+
+    font-family: Averta-Regular, Avenir !important }
 
 .mat-card {
     background: #f4f5f6;

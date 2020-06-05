@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BreedListComponent } from './pages/breed-list/breed-list.component';
 import { BreedDetailsComponent } from './pages/breed-details/breed-details.component';
+import { FavoritesListComponent } from './pages/favorites-list/favorites-list.component';
 
 
 const routes: Routes = [
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path: 'breed/:id',
     component: BreedDetailsComponent
+  },
+  {
+    path: 'favorites',
+    component: FavoritesListComponent
   }
 ];
 
