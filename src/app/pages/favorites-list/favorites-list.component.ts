@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { DoggiesService } from 'src/app/services/doggies.service';
-import { Breed } from 'src/app/models/breed.model';
 import { Favorite } from 'src/app/models/favorite.model';
 
 @Component({
@@ -16,7 +15,7 @@ export class FavoritesListComponent implements OnInit {
 
   ngOnInit() {
     this.randomDecimal = Math.random();
-    this.doggiesService.favorites.subscribe(favorites => {
+    this.doggiesService.getFavorites().subscribe(favorites => {
       this.favorites = favorites;
     });
   }

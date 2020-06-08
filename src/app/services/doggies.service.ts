@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Breed } from '../models/breed.model';
 import { Observable } from 'rxjs';
-import { publishReplay, refCount, map } from 'rxjs/operators';
+import { publishReplay, refCount, map, switchMap } from 'rxjs/operators';
 import { Favorite } from '../models/favorite.model';
 
 @Injectable({
@@ -17,7 +17,7 @@ export class DoggiesService {
 
   constructor(private http: HttpClient) {}
 
-  get breeds(): Observable<Breed[]> {
+  getBreeds(): Observable<Breed[]> {
     if (!this.doggies$) {
       this.doggies$ = this.http.get<Breed[]>(this.url + '/breeds')
         .pipe(
@@ -30,10 +30,10 @@ export class DoggiesService {
   }
 
   getBreed(id: number): Observable<Breed> {
-    return this.breeds.pipe(map((data: Breed[]) => data.filter((breed: Breed) => breed.id === id)[0] || null));
+    return this.getBreeds().pipe(map((data: Breed[]) => data.filter((breed: Breed) => breed.id === id)[0] || null));
   }
 
-  get favorites(): Observable<Favorite[]> {
+  getFavorites(): Observable<Favorite[]> {
     if (!this.favorites$) {
       this.favorites$ = this.http.get<Favorite[]>(`${this.url}/favorites`)
         .pipe(
@@ -45,15 +45,17 @@ export class DoggiesService {
     return this.favorites$;
   }
 
-  get favoriteIds(): Observable<{}> {
-    return this.favorites.pipe(
-      map((fav: Favorite[]) => fav.reduce((hashMap, x) => {hashMap[x.breed.id] = x.id; return hashMap; }, {})));
+  /** Returns a hashmap of breedId as key and favorite id as value */
+  getFavoriteIds(): Observable<{}> {
+    return this.getFavorites().pipe(
+      map((favorites: Favorite[]) => favorites.reduce((hashMap, x) => {hashMap[x.breed.id] = x.id; return hashMap; }, {})));
   }
 
-  addToFavorites(id: number) {
+  addToFavorites(id: number): Observable<{}>  {
     this.favorites$ = null;
     const body = { breed_id: id };
-    return this.http.post(`${this.url}/favorites/add`, body);
+    return this.http.post(`${this.url}/favorites/add`, body)
+          .pipe(switchMap(() => this.getFavoriteIds()));
   }
 
   removeFromFavorites(id: number) {
