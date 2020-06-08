@@ -47,7 +47,7 @@ export class DoggiesService {
 
   get favoriteIds(): Observable<{}> {
     return this.favorites.pipe(
-      map((fav: Favorite[]) => fav.reduce((map, x) => {map[x.breed.id] = x.id; return map}, {})));
+      map((fav: Favorite[]) => fav.reduce((hashMap, x) => {hashMap[x.breed.id] = x.id; return hashMap; }, {})));
   }
 
   addToFavorites(id: number) {

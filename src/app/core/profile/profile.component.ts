@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Breed } from 'src/app/models/breed.model';
+import { MatDialog } from '@angular/material/dialog';
+import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 
 @Component({
   selector: 'doggies-profile',
@@ -14,10 +16,10 @@ export class ProfileComponent implements OnInit {
 
   @Output() addToFavorites: EventEmitter<number> = new EventEmitter();
   @Output() removeFromFavorites: EventEmitter<number> = new EventEmitter();
-  
+
   imageUrl: string;
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
     const randomIndex = Math.floor((this.randomDecimal || Math.random()) * Math.floor(this.breed.images.length));
@@ -25,11 +27,21 @@ export class ProfileComponent implements OnInit {
   }
 
   toggleIsFavorite() {
-    this.favorite = !this.favorite;
-    if(this.favorite) {
+    if (!this.favorite) {
+      this.favorite = !this.favorite;
       this.addToFavorites.emit(this.breed.id);
-    }else {
-      this.removeFromFavorites.emit(this.breed.id)
+    } else {
+      this.dialog.open(PopupModalComponent, {
+        data: {
+          label: `Remove ${this.breed.name} from Favorites`,
+          text: `Are you sure you would like to remove ${this.breed.name} from your favorites?`
+        }
+      }).afterClosed().subscribe(result => {
+        if (result) {
+          this.favorite = !this.favorite;
+          this.removeFromFavorites.emit(this.breed.id);
+        }
+      });
     }
   }
 }

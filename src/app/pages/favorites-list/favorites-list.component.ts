@@ -10,10 +10,12 @@ import { Favorite } from 'src/app/models/favorite.model';
 })
 export class FavoritesListComponent implements OnInit {
   favorites: Favorite[];
+  randomDecimal: number;
 
   constructor(private doggiesService: DoggiesService) { }
 
   ngOnInit() {
+    this.randomDecimal = Math.random();
     this.doggiesService.favorites.subscribe(favorites => {
       this.favorites = favorites;
     });

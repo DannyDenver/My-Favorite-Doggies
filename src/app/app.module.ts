@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,6 +11,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { BreedDetailsComponent } from './pages/breed-details/breed-details.component';
 import { FavoritesListComponent } from './pages/favorites-list/favorites-list.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { PopupModalComponent } from './core/popup-modal/popup-modal.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { FavoritesListComponent } from './pages/favorites-list/favorites-list.co
     BreedListComponent,
     ProfileComponent,
     BreedDetailsComponent,
-    FavoritesListComponent
+    FavoritesListComponent,
+    PopupModalComponent
   ],
   imports: [
     BrowserModule,
@@ -28,9 +30,11 @@ import { FavoritesListComponent } from './pages/favorites-list/favorites-list.co
     HttpClientModule,
     MatCardModule,
     MatButtonModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
   providers: [],
+  entryComponents: [PopupModalComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

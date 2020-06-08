@@ -33,7 +33,7 @@ export class BreedListComponent implements OnInit {
       .pipe(switchMap(() => this.doggiesService.favoriteIds))
       .subscribe((favoriteIds) => {
         this.favoriteIdHash = favoriteIds;
-        this.favoriteIds = Object.keys(favoriteIds).map(x => Number(x))
+        this.favoriteIds = Object.keys(favoriteIds).map(x => Number(x));
       });
   }
 
